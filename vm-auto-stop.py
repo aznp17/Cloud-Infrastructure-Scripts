@@ -7,7 +7,7 @@ from azure.mgmt.compute import ComputeManagementClient
 # ---------------------------------------------------------
 # TODO: Replace these with your actual Azure details
 SUBSCRIPTION_ID = '6de86bda-15aa-40cf-bec8-b60d1d2f38f9'
-RESOURCE_GROUP = 'YOUR_RESOURCE_GROUP'
+RESOURCE_GROUP = 'VirtualMachineTest'
 
 # The specific tag we are looking for to identify Dev VMs
 TARGET_TAG = 'Environment'
