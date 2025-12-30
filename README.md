@@ -38,3 +38,33 @@ To run these scripts, you will need:
 ### Required Libraries
 ```bash
 pip install azure-identity azure-mgmt-compute
+
+
+Clone the repository:
+
+git clone [https://github.com/aznp17/Cloud-Infrastructure-Scripts.git](https://github.com/aznp17/Cloud-Infrastructure-Scripts.git)
+cd Cloud-Infrastructure-Scripts
+
+Bash
+
+az login
+Configure the Script: Open the script file and update the configuration variables at the top:
+
+Python
+
+SUBSCRIPTION_ID = 'your-subscription-id'
+RESOURCE_GROUP = 'your-resource-group'
+DRY_RUN = True  # Set to False when ready to execute
+Run the Script:
+
+Bash
+
+python vm-auto-stop.py
+🚧 Future Improvements
+This repository is an active project. Planned updates include:
+Scripts for identifying unused Azure Managed Disks.
+Automated cleanup of empty Resource Groups.
+Reporting tools to export cost analysis to CSV.
+
+👤 Author
+Peter Nguyen Aspiring Cloud Engineer & Python Developer (https://www.linkedin.com/in/peter-nguyen-cloud/)
