@@ -38,8 +38,3 @@ To run these scripts, you will need:
 ### Required Libraries
 ```bash
 pip install azure-identity azure-mgmt-compute
-
-
-### Author
-👤 Author
-Peter Nguyen Aspiring Cloud Engineer & Python Developer (https://www.linkedin.com/in/peter-nguyen-cloud/)
