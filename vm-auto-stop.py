@@ -6,8 +6,8 @@ from azure.mgmt.compute import ComputeManagementClient
 # CONFIGURATION
 # ---------------------------------------------------------
 # TODO: Replace these with your actual Azure details
-SUBSCRIPTION_ID = 'AZURE_SUBSCRIPTION_ID'
-RESOURCE_GROUP = 'AZURE_RESOURCE_GROUP'
+SUBSCRIPTION_ID = '6de86bda-15aa-40cf-bec8-b60d1d2f38f9'
+RESOURCE_GROUP = 'VirtualMachineTest'
 
 # The specific tag we are looking for to identify Dev VMs
 TARGET_TAG = 'Environment'
@@ -18,7 +18,7 @@ TARGET_VALUE = 'Dev'
 DRY_RUN = True 
 
 def main():
-    print(f"Starting Cost Optimization Script (Dry Run: {DRY_RUN})...")
+    print(f"Starting Cost Optimization Script (Dry Run Status: {DRY_RUN})")
 
     # 1. Authentication
     # We use DefaultAzureCredential so this works locally (via Azure CLI) 
