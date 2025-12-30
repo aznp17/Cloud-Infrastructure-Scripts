@@ -37,4 +37,4 @@ To run these scripts, you will need:
 
 ### Required Libraries
 ```bash
-pip install azure-identity azure-mgmt-compute
+python -m pip install azure-identity azure-mgmt-compute
