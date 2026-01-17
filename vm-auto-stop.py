@@ -2,56 +2,46 @@ import os
 from azure.identity import DefaultAzureCredential
 from azure.mgmt.compute import ComputeManagementClient
 
-# ---------------------------------------------------------
-# CONFIGURATION
-# ---------------------------------------------------------
-# TODO: Replace these with your actual Azure details
+#SetUp is here. No ID should be visible! 
 SUBSCRIPTION_ID = '6de86bda-15aa-40cf-bec8-b60d1d2f38f9'
 RESOURCE_GROUP = 'VirtualMachineTest'
 
-# The specific tag we are looking for to identify Dev VMs
+# Tag to look for
 TARGET_TAG = 'Environment'
 TARGET_VALUE = 'Dev'
 
-# SAFETY SWITCH: Set to True to test the script without actually stopping VMs.
-# Set to False when you are ready to run it for real.
+# SAFETY SWITCH: True = Test Mode (Won't stop anything), False = Real Mode
 DRY_RUN = True 
 
 def main():
-    print(f"Starting Cost Optimization Script (Dry Run Status: {DRY_RUN})")
+    print(f"Starting Cost Optimization Script (Dry Run: {DRY_RUN})")
+#Step #1: Logging In
+    print("Connecting to Azure...")
+    
+    credential = DefaultAzureCredential()
 
-    # 1. Authentication
-    # We use DefaultAzureCredential so this works locally (via Azure CLI) 
-    # and in the cloud (via Managed Identity) without code changes.
-    try:
-        credential = DefaultAzureCredential()
-        compute_client = ComputeManagementClient(credential, SUBSCRIPTION_ID)
-    except Exception as e:
-        print(f"CRITICAL ERROR: Failed to authenticate. {e}")
-        return
+    compute_client = ComputeManagementClient(credential, SUBSCRIPTION_ID)
 
-    # 2. Get List of VMs
-    try:
-        vms = compute_client.virtual_machines.list(RESOURCE_GROUP)
-    except Exception as e:
-        print(f"CRITICAL ERROR: Could not list VMs. Check Resource Group name. {e}")
-        return
+Step #2: Logic Code
+    print(f"Checking VMs in group: {RESOURCE_GROUP}...")
 
-    # 3. Iterate and Check
+    # Get list of VMs
+    vms = compute_client.virtual_machines.list(RESOURCE_GROUP)
+
     for vm in vms:
         try:
-            # Handle cases where a VM has no tags (returns None)
+            # Use a blank if no tag if found. Prevents crashing the code
             tags = vm.tags or {}
             
-            # Check if the specific tag key and value match (Environment: Dev)
+            # Check for the "Environment: Dev" tag
             if tags.get(TARGET_TAG) == TARGET_VALUE:
                 
-                # Check the power state (we only want to stop running VMs)
+                # Check if it is currently running
                 vm_instance = compute_client.virtual_machines.instance_view(RESOURCE_GROUP, vm.name)
                 is_running = any(s.code == 'PowerState/running' for s in vm_instance.statuses)
 
                 if is_running:
-                    print(f"[MATCH] {vm.name} is RUNNING with tag {TARGET_TAG}={TARGET_VALUE}.")
+                    print(f"[MATCH] {vm.name} is RUNNING.")
                     
                     if not DRY_RUN:
                         print(f"        --> Stopping {vm.name}...")
@@ -63,11 +53,9 @@ def main():
                     print(f"[SKIP]  {vm.name} is already stopped.")
             
             else:
-                # VM exists but doesn't have the 'Dev' tag
-                print(f"[IGNORE] {vm.name} does not match target tags.")
+                print(f"[IGNORE] {vm.name} (Tags do not match)")
 
         except Exception as e:
-            # If one VM fails (e.g., locked), print error and continue to the next one
             print(f"ERROR processing {vm.name}: {e}")
 
     print("Script complete.")
