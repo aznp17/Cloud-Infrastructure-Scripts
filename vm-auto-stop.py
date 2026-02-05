@@ -14,16 +14,17 @@ TARGET_VALUE = 'Dev'
 DRY_RUN = True 
 
 print(f"Starting Cost Optimization Script (Dry Run: {DRY_RUN})")
+
 #Step #1: Getting all the login info first.  This compute_client is worker, where you give it the credential ID and the subscription ID. 
 print("Connecting to Azure...")
     
 credential = DefaultAzureCredential()
 compute_client = ComputeManagementClient(credential, SUBSCRIPTION_ID)  #clientinstance is ready to go
 
-#Step #2: Logic Code
+#Step #2: Start the actual code of finding stuff
 print(f"Checking VMs in group: {RESOURCE_GROUP}...")
 
-# Get list of VMs
+# Get list of VMs in the resource group. We will loop through these and check the tags on each one. If the tags match, we check if it is running, and if it is, we stop it.
 vms = compute_client.virtual_machines.list(RESOURCE_GROUP)
 
 for vm in vms:
