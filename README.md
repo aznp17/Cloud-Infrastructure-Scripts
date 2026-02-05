@@ -8,7 +8,7 @@ This repository serves as a portfolio of cloud engineering tools designed to sol
 
 | Script Name | Description | Key Services |
 | :--- | :--- | :--- |
-| **`vm-auto-stop.py`** | Automates cost savings by identifying and deallocating specific Dev/Test Virtual Machines. | Compute, Tags |
+| **`vm-auto-stop.py`** | Automates cost savings by identifying and deallocating specific Virtual Machines by tags and resource group. | Compute, Tags |
 | *(Coming Soon)* | *Future scripts for Storage Account management and Network security checks.* | ... |
 
 ---
